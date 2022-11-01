@@ -93,6 +93,14 @@ typedef enum {
   MAX31856_CONTINUOUS
 } max31856_conversion_mode_t;
 
+typedef enum {
+  MAX31856_AVG_1SAMPLE = 0b000,
+  MAX31856_AVG_2SAMPLE = 0b001,
+  MAX31856_AVG_4SAMPLE = 0b010,
+  MAX31856_AVG_8SAMPLE = 0b011,
+  MAX31856_AVG_16SAMPLE = 0b111,
+} max31856_average_mode_t;
+
 #if (ARDUINO >= 100)
 #include "Arduino.h"
 #else
@@ -114,6 +122,9 @@ public:
   Adafruit_MAX31856(int8_t spi_cs, SPIClass *_spi = &SPI);
 
   bool begin(void);
+
+  void setAveragingMode(max31856_average_mode_t mode);
+  max31856_average_mode_t getAveragingMode(void);
 
   void setConversionMode(max31856_conversion_mode_t mode);
   max31856_conversion_mode_t getConversionMode(void);

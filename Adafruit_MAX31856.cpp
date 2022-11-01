@@ -90,6 +90,9 @@ bool Adafruit_MAX31856::begin(void) {
   // set cold junction temperature offset to zero
   writeRegister8(MAX31856_CJTO_REG, 0x0);
 
+  // set Averaging Mode to 16 samples
+  setAveragingMode(MAX31856_AVG_16SAMPLE);
+
   // set Type K by default
   setThermocoupleType(MAX31856_TCTYPE_K);
 
@@ -97,6 +100,19 @@ bool Adafruit_MAX31856::begin(void) {
   setConversionMode(MAX31856_ONESHOT);
 
   return true;
+}
+
+
+void Adafruit_MAX31856::setAveragingMode(max31856_average_mode_t mode) {
+  uint8_t t = readRegister8(MAX31856_CR1_REG);
+  t &= 0xF0; // mask off top 3 bits
+  t |= (uint8_t)mode & 0xE0;
+  writeRegister8(MAX31856_CR1_REG, t);
+}
+max31856_average_mode_t Adafruit_MAX31856::getAveragingMode(void) {
+  uint8_t t = readRegister8(MAX31856_CR1_REG);
+  t &= 0xE0;
+  return (max31856_average_mode_t)(t);
 }
 
 /**************************************************************************/
