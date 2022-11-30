@@ -132,6 +132,8 @@ public:
   void setThermocoupleType(max31856_thermocoupletype_t type);
   max31856_thermocoupletype_t getThermocoupleType(void);
 
+  bool setColdJunctionOffset(float temperature);
+
   uint8_t readFault(void);
 
   void triggerOneShot(void);

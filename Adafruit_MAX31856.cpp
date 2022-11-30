@@ -170,6 +170,17 @@ max31856_thermocoupletype_t Adafruit_MAX31856::getThermocoupleType(void) {
   return (max31856_thermocoupletype_t)(t);
 }
 
+bool Adafruit_MAX31856::setColdJunctionOffset(float temperature) {
+    if (temperature > 7.9375 || temperature < -8.0) {
+        //LOG("Input value to offest the cold junction point is non valid. enter in value in range -8 to +7.9375\r\n");
+        return false;
+        //return_val = 0;
+    }
+    int8_t temp_val=temperature*16.0f; //normalize the value to get rid of decimal and shorten it to size of register
+    writeRegister8(MAX31856_CJTO_REG, temp_val); //write the byte to cold junction offset register
+    return true;
+}
+
 /**************************************************************************/
 /*!
     @brief  Read the fault register (8 bits)
